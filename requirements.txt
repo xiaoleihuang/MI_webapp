@@ -1,3 +1,4 @@
+python_version=2.7
 gensim==0.13.2
 Unidecode==0.04.21
 nltk==3.2.1
