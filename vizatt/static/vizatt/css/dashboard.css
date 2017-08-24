@@ -1,0 +1,140 @@
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+rect.disabled {
+	fill: transparent !important;
+}
+
+.tooltipline{
+	top: 180px;
+	left: 30.33%;
+	color: #333333;
+	font-family: Impact, Charcoal, sans-serif;
+}
+
+body{padding-top:50px;background: #f2f2f2;}
+
+.chart-wrapper {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+.chart-wrapper .chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 7px 10px 4px;
+}
+
+.chart-wrapper .chart-stage {
+  overflow: hidden;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.chart-wrapper .chart-notes {
+  background: #fbfbfb;
+  border-top: 1px solid #e2e2e2;
+  color: #808080;
+  font-size: 12px;
+  padding: 8px 10px 5px;
+}
+
+/* gender bar chart attribute */
+.gender_toolTip {
+  position: absolute;
+  display: none;
+  min-width: 80px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #6F257F;
+  padding: 14px;
+  text-align: center;
+}
+
+/* Map Attributes */
+.states {
+  fill: #ccc;
+  stroke: #fff;
+}
+
+#map {
+	width: 100%; 
+	height: 600px; 
+}
+.info {padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+
+.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.arc path {
+  stroke: #fff;
+}
+
+
+/* Styles for weekly and monthly trends */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+/*  display: none;*/
+}
+
+.dot {
+	opacity: 0;
+}
+
+
+
+/* Tooltip styles below */
+/*The tooltip must have a position of 'absolute'.
+And the '.chart' div must have a position of 'relative'.
+Why? The 'absolute' 'position' defines position relative to the nearest parent with a position attribute.
+If we dont' define a 'position' property, the .chart div with the 'absolute' position will look to the next parent.
+If it finds none, it will position relative to the window. We want our tooltip to stay in the chart.
+More info here: http://www.w3schools.com/css/css_positioning.asp;
+*/
+
+.chart_wm_trends {
+  height: 600px;
+  position: relative;
+}
+
+.tt {
+	background-color: #fff;
+	padding: 8px;
+	outline: 1px solid #ccc;
+	display: none;
+	position: absolute;
+}
+
+.tt .name {
+	font-size: 14px;
+}
+
+.tt .date {
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+.tt .rate {
+	font-size: 18px;
+	font-weight: bold;
+}

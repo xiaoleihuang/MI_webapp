@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Xiaolei Huang">
+{% load static %}
+<link rel="icon" href="{% static 'vizatt/icon.png' %}">
+<title>Alcohol Behavior Analysis</title>
+
+<link rel="stylesheet" type="text/css" href="{% static 'vizatt/dist/css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'vizatt/dist/css/bootstrap-theme.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'vizatt/css/dashboard.css' %}">
+
+<!-- Support-->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.13.0/d3-legend.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<script src="{% static 'vizatt/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'vizatt/js/index.js' %}"></script>
+
+</head>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Alcohol Behavior Analysis</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Attention Visualization</a></li>
+                    <li><a target="_blank" href="https://schererstefan.net/index.html">About</a></li>
+                </ul>
+            </div><!--.nav-collapse -->
+        </div>
+    </nav>
+    <script type="text/javascript">
+    $(function() {
+      $('#input_mode').on('change', function(){
+        var selected = $(this).find("option:selected").val();
+        if(selected == 2){
+            document.getElementById('input_context').style.display = 'block'
+            document.getElementById('context_viz').style.display = ''
+        }else{
+            document.getElementById('input_context').style.display = 'none'
+            document.getElementById('context_viz').style.display = 'none'
+        }
+      });
+    });
+
+	function loadExample(){
+		document.getElementById('input_context').value = "Do you like drinking alcohol?";
+		document.getElementById('input_content').value = "I don't like drinking alcohol!";
+	}
+    </script>
+
+	<!-- Start -->
+	<div class="container-fluid">
+		<div class="row">
+      <!-- Word Cloud -->
+			<div class="col-sm-4">
+				<div class="chart-wrapper">
+					<div class="chart-title">Input Panel</div>
+					<div class="chart-stage" style="height:500px;">
+                        <form name="att_form" action="/attention_form_calc/" method="post">{% csrf_token %}
+							<label>Select Input Mode:</label>
+                            <select class="form-control" id="input_mode" name="input_mode">
+								<option value="0" selected>Options....</option>
+                                <option value="1">No Context</option>
+                                <option value="2">With Context</option>
+                            </select>
+                            <label for="your_name" class="col-2 col-form-label">Input Your Sentences: </label>
+                            <textarea class="form-control" rows="5" id="input_context" placeholder="Type the contexts here" style="display:none;" name="input_context"></textarea>
+                            <br/>
+                            <textarea class="form-control" rows="5" id="input_content" placeholder="Type the contents here" name="input_content"></textarea>
+                            <br/>
+                            <input type="submit" class="btn btn-primary active" style="margin-right:4%"/>
+                            <input type="reset" class="btn btn-secondary active"/>
+                        </form>
+						<br/>
+						<button class="btn btn-info active" onclick="loadExample()">Load Example</button>
+					</div>
+					<div class="chart-notes"></div>
+				</div>
+			</div>
+
+
+      <!-- Sentence Visualization -->
+			<div class="col-sm-8">
+				<div class="chart-wrapper">
+					<div class="chart-title">Analysis Panel</div>
+					<div class="chart-stage" style="height:auto;">
+						<div id="back2page">
+							{% if form %}
+								<table id="data_analysis" class="table table-bordered table-responsive" width="100%" height="100%" style="text-align:center;">
+									{% if context_tuple %}
+										<tr class="bg-success">
+											<td colspan="4">Context Visualization</td>
+										</tr>
+										<tr>
+											<td colspan="4" id='context_viz_td'>
+											</td>
+											<script>var context_tmp = {{context_tuple|safe}}; visualize_word(context_tmp, "#context_viz_td");</script>
+										</tr>
+									{% endif %}
+									<tr class="bg-success">
+										<td colspan="4">Query Visualization</td>
+									</tr>
+									<tr>
+										<td colspan="4" id='content_viz_td'>
+										</td>
+										<script>var content_tmp = {{content_tuple|safe}}; visualize_word(content_tmp, "#content_viz_td");</script>
+									</tr>
+									<!--
+									<tr>
+										<td colspan="4">
+											<font size="6">0</font>   <img src="{% static 'vizatt/images/Reds.png' %}" alt="Attention Weights Mapping" width="70%" height="30" alt="PuOr" style="max-width:100%;">   <font size="6">1</font>
+										</td>
+									</tr>
+									-->
+									<tr class="bg-success">
+										<td>Less Beers</td>
+										<td>Good Lifestyle</td>
+										<td>More Beers</td>
+										<td>Prediction</td>
+									</tr>
+									<tr>
+										<td>
+											<svg width="100%" height="60px"><g transform="translate(0,10)"><rect width="{{pred_probs.0}}" height="19" fill="steelblue"></rect><text x="10" y="19.5" dy="1.35em">{{pred_probs.0}} %</text>{% if pred_cls == 0 %}<text x="75" y="19.5" dy="1.35em">👈</text>{% endif %}</g></svg>
+										</td>
+										<td>
+											<svg width="100%" height="60px"><g transform="translate(0,10)"><rect width="{{pred_probs.1}}" height="19" fill="steelblue"></rect><text x="10" y="19.5" dy="1.35em">{{pred_probs.1}} %</text>{% if pred_cls == 1 %}<text x="75" y="19.5" dy="1.35em">👈</text>{% endif %}</g></svg>
+										</td>
+										<td>
+											<svg width="100%" height="60px"><g transform="translate(0,10)"><rect width="{{pred_probs.2}}" height="19" fill="steelblue"></rect><text x="10" y="19.5" dy="1.35em">{{pred_probs.2}} %</text>{% if pred_cls == 2 %}<text x="75" y="19.5" dy="1.35em">👈</text>{% endif %}</g></svg>
+										</td>
+										<td>
+											{% if pred_cls == 0 %}
+												<font size="6">🍺</font>
+												<p>Congrats! You have less beers!</p>
+											{% elif pred_cls == 1 %}
+												<font size="6">☕</font>
+												<p>Congrats! You have a better lifestyle with coffee!</p>
+											{% else %}
+												<font size="6">🍻</font>
+												<p>Wow! You already have enough beers!</p>
+											{% endif %}
+										</td>
+									</tr>
+								</table>
+							{% endif %}
+						</div>
+						{% load tz %}
+						{% timezone "Canada/Pacific" %}
+						Requested Time: {% now "SHORT_DATETIME_FORMAT" %}
+						{% endtimezone %}
+
+						{% if error %}
+							<div class="alert alert-danger">
+								<strong>Error:</strong> {{error}}
+							</div>
+						{% endif %}
+					</div>
+					<div class="chart-notes"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
