@@ -9,6 +9,9 @@ if sys.version_info[0] == 2:
 #	import simplejson as json
 #except:
 import json
+import theano
+import os
+os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=cpu,floatX=float32"
 
 def index(request):
 	return render(request, 'att_viz/index.html')
@@ -52,25 +55,25 @@ def attention_form_calc(request):
 		content = request.POST.get('input_content')
 	else:
 		return render(request, 'att_viz/index.html', {'error': 'The data is not valid and must be requested as POST.'})
-	
+
 	# check the data and models are validate or not
 	error = model_helper.validate_inputs(
 		input_mode, content, context, keras_model, keras_model_context)
 	if error:
 		return render(request, 'att_viz/index.html', {'error': error})
-	
+
 	# preprocessing the dataset
 	input_mode = int(input_mode)
 	content = content.strip()
 	rnn_layer_funcs = rnn_layer_func_content # for content mode
 	keras_model_input = keras_model
-	
+
 	if sys.version_info[0] == 2:
 		content = unidecode(content)
 	content_proc = data_helper.preproc_data([content])
 	content_proc_idx = data_helper.proc_pipeline(
 		content_proc, keras_tokenizer, config_dict.seq_max_len)
-	
+
 	context_proc_idx=None
 	if input_mode == 2: # for the context
 		if sys.version_info[0] == 2:
@@ -78,14 +81,14 @@ def attention_form_calc(request):
 		context = context.strip()
 		context_proc = data_helper.preproc_data([context])
 		context_proc_idx = data_helper.proc_pipeline(context_proc, keras_tokenizer, config_dict.seq_max_len)
-		
+
 		rnn_layer_funcs = rnn_layer_func_ctxt # contextual mode functions
 		keras_model_input = keras_model_context
 
 	pred_probs,pred_cls,att_weights,att_weights_ctxt=model_helper.cal_pipeline(
             content_proc_idx, keras_model_input, input_context=context_proc_idx,
             input_mode=input_mode, rnn_layer_func_list=rnn_layer_funcs)
-	
+
 	# process probability for each catgory
 	sum_probs = sum(pred_probs)# normalize for sum to 1
 	pred_probs = [round(itm/sum_probs*100,2) for itm in pred_probs]
@@ -99,7 +102,7 @@ def attention_form_calc(request):
 		else:
 			att_content_list.append({'word': word,'value': '0'})
 
-	# contextual mode for mapping words and its attention weights	
+	# contextual mode for mapping words and its attention weights
 	if input_mode == 2:
 		context_words = context_proc[0].split()
 		att_ctxt_list = []
@@ -108,14 +111,14 @@ def attention_form_calc(request):
 				att_ctxt_list.append({'word': word,'value':str(att_weights_ctxt.get(keras_tokenizer.word_index[word],0))})
 			else:
 				att_ctxt_list.append({'word': word,'value': '0'})
-		
+
 		return render(request, 'att_viz/index.html', {
 			'form': input_mode,
 			'pred_probs':pred_probs, 'pred_cls':pred_cls,
 			'content_tuple':json.dumps(att_content_list),
 			'context_tuple':json.dumps(att_ctxt_list),
 		})
-	
+
 	# content-only mode
 	return render(request, 'att_viz/index.html', {
 		'form': input_mode,
