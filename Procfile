@@ -1,1 +1,1 @@
-web: gunicorn attentionviz.wsgi --log-file -
+web: gunicorn attentionviz.wsgi --log-file --preload -
