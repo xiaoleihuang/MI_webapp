@@ -27,7 +27,7 @@ SECRET_KEY = '-&ju7vjh!_!kaoe$9$y)89z(0g8xzz4_+ezevt##32)i^#r(47'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.31.125','localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['172.16.31.125','localhost', '127.0.0.1', 'immense-river-96320.herokuapp.com']
 
 
 # Application definition
