@@ -27,7 +27,7 @@ SECRET_KEY = '-&ju7vjh!_!kaoe$9$y)89z(0g8xzz4_+ezevt##32)i^#r(47'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.31.125','localhost', '127.0.0.1', 'immense-river-96320.herokuapp.com']
+ALLOWED_HOSTS = ['172.16.31.125','localhost', '127.0.0.1', 'immense-river-96320.herokuapp.com', '0.0.0.0']
 
 
 # Application definition
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'attentionviz.urls'
@@ -120,7 +121,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 from sys import path
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
