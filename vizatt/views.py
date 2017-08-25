@@ -11,7 +11,7 @@ if sys.version_info[0] == 2:
 import json
 import theano
 import os
-os.environ["THEANO_FLAGS"] = "optimizer=fast_compile,mode=FAST_RUN,device=cpu,floatX=float32"
+os.environ["THEANO_FLAGS"] = "optimizer=None,mode=FAST_RUN,device=cpu,floatX=float32"
 
 def index(request):
 	return render(request, 'att_viz/index.html')
