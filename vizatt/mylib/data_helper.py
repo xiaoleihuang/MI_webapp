@@ -7,6 +7,8 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import keras
 
+import nltk
+nltk.data.path.append('./resources/nltk_data/')
 from nltk.stem import SnowballStemmer
 stemmer = SnowballStemmer('english')
 from nltk.tokenize import word_tokenize
@@ -47,7 +49,7 @@ def padding2sequences(X, MAX_NB_WORDS=10000, MAX_SEQUENCE_LENGTH=40, tokenizer=N
 			tokenizer = Tokenizer(nb_words=MAX_NB_WORDS)
 		tokenizer.fit_on_texts(X)
 	sequences = tokenizer.texts_to_sequences(X)
-	
+
 	print('Found %s unique tokens.' % len(tokenizer.word_index))
 	data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH)
 	return data, tokenizer
@@ -178,7 +180,7 @@ def preproc_data(data, use_lower=True, use_stem=False, use_stopwords=False, spli
 		doc = doc.strip()
 		if use_lower:
 			doc = doc.lower()
-		
+
 		tmp_doc = word_tokenize(doc)
 		tmp_doc = [word.strip() for word in tmp_doc if len(word.strip()) > 0]
 		if use_stem:
@@ -196,7 +198,7 @@ def proc_pipeline(input_data, keras_tokenizer, max_len):
 	if type(input_data) == str:
 		input_data = unicode(input_data)
 		input_data = [input_data]
-	
+
 	# convert the dataset to index
 	dataset_idx = keras_tokenizer.texts_to_sequences(input_data)
 	length_data = len(dataset_idx)
