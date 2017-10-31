@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
+	url(r'^topics/', include('analysis4topic.urls')),
 	url(r'^', include('vizatt.urls')),
     url(r'^admin/', admin.site.urls),
 ]

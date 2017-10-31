@@ -60,9 +60,14 @@
     });
 
 	function loadExample(){
-		document.getElementById('input_context').value = "Do you like drinking alcohol?";
-		document.getElementById('input_content').value = "I don't like drinking alcohol!";
+		d3.tsv("{% static 'vizatt/test_data.tsv' %}", function(data) {
+			results = data;
+			idx = Math.floor(Math.random() * data.length) + 1;
+			document.getElementById('input_context').value = data[idx-1].context
+			document.getElementById('input_content').value = data[idx-1].content
+		});
 	}
+
     </script>
 
 	<!-- Start -->
