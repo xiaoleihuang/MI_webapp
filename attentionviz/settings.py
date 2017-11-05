@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vizatt',
+	'analysis4topic',
 ]
 
 MIDDLEWARE = [
