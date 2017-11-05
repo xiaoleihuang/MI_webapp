@@ -16,7 +16,7 @@ Web application for the MI study
 
 # Screenshots of demo
 1. Only Content
-<img src="/xiaoleihuang/MI_webapp/raw/master/resources/screenshots/1.png?raw=true" alt="Contextual Mode" title="Optional Title" style="max-width:50%;">
+<img src="./resources/screenshots/1.png?raw=true" alt="Contextual Mode" title="Optional Title" width="50%">
 2. With context
 ![Contextual Mode](./resources/screenshots/2.png?raw=true "Optional Title")
 
