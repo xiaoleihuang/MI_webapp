@@ -11,3 +11,17 @@ Web application for the MI study
 3. Run the following:
   * `source activate myenv`
   * `python manage.py runserver 0.0.0.0:8000`. If this port is occupied, try other ports.
+4. Open browswer and open `0.0.0.0:8000` for homepage.
+5. `0.0.0.0:8000/topics/` for topic language analysis
+
+# Screenshots of demo
+1. Only Content
+![Content Evaluation](./resources/screenshots/1.png?raw=true "Optional Title")
+2. With context
+![Contextual Mode](./resources/screenshots/2.png?raw=true "Optional Title")
+
+# License
+1. This project is licensed under the GPL License - see the [LICENSE.md](https://github.com/xiaoleihuang/MI_webapp/blob/master/LICENSE) file for details
+
+# Contact
+This author.
