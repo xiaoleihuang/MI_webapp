@@ -1,6 +1,10 @@
 # MI_webapp
 Web application for the MI study
 
+# Tested Platform
+1. OS: Ubuntu
+2. Browser: Chrome, Firefox
+
 # How to run
 1. Install [Conda](https://conda.io/docs/user-guide/install/index.html). Don't forget to add conda in your path. You can run commands below to add conda in your path.
   * `vim ~/.bashrc`
@@ -11,7 +15,7 @@ Web application for the MI study
 3. Run the following:
   * `source activate myenv`
   * `python manage.py runserver 0.0.0.0:8000`. If this port is occupied, try other ports.
-4. Open browswer and open `0.0.0.0:8000` for homepage.
+4. Open browser and open `0.0.0.0:8000` for homepage.
 5. `0.0.0.0:8000/topics/` for topic language analysis
 
 # Screenshots of demo
