@@ -16,7 +16,7 @@ Web application for the MI study
 
 # Screenshots of demo
 1. Only Content
-![Content Evaluation](./resources/screenshots/1.png?raw=true "Optional Title")
+![Content Evaluation](./resources/screenshots/1.png?raw=true "Optional Title" | width=80%)
 2. With context
 ![Contextual Mode](./resources/screenshots/2.png?raw=true "Optional Title")
 
