@@ -14,16 +14,16 @@ import os
 os.environ["THEANO_FLAGS"] = "optimizer=None,mode=FAST_RUN,device=cpu,floatX=float32"
 
 def index(request):
-	return render(request, 'att_viz/index.html')
+	return render(request, 'index.html')
 
 def test(request):
 	# test json
-	import simplejson as json
+	import json
 	spaceCircles = [30, 70, 110]
 	test = [{'word':'alcohol', 'value':20}, {'word':'like', 'value':10},{'word':'hello', 'value':1}]
 	test = json.dumps(test)
 	print(test)
-	return render(request, 'att_viz/test.html',{'spaceCircles':spaceCircles, 'test': test})
+	return render(request, 'test.html',{'spaceCircles':spaceCircles, 'test': test})
 
 from .mylib import myconfig
 from .forms import AttentionForm
@@ -54,13 +54,13 @@ def attention_form_calc(request):
 		context = request.POST.get('input_context')
 		content = request.POST.get('input_content')
 	else:
-		return render(request, 'att_viz/index.html', {'error': 'The data is not valid and must be requested as POST.'})
+		return render(request, 'att_viz/topics.html', {'error': 'The data is not valid and must be requested as POST.'})
 
 	# check the data and models are validate or not
 	error = model_helper.validate_inputs(
 		input_mode, content, context, keras_model, keras_model_context)
 	if error:
-		return render(request, 'att_viz/index.html', {'error': error})
+		return render(request, 'att_viz/topics.html', {'error': error})
 
 	# preprocessing the dataset
 	input_mode = int(input_mode)
@@ -112,7 +112,7 @@ def attention_form_calc(request):
 			else:
 				att_ctxt_list.append({'word': word,'value': '0'})
 
-		return render(request, 'att_viz/index.html', {
+		return render(request, 'att_viz/topics.html', {
 			'form': input_mode,
 			'pred_probs':pred_probs, 'pred_cls':pred_cls,
 			'content_tuple':json.dumps(att_content_list),
@@ -120,7 +120,7 @@ def attention_form_calc(request):
 		})
 
 	# content-only mode
-	return render(request, 'att_viz/index.html', {
+	return render(request, 'att_viz/topics.html', {
 		'form': input_mode,
 		'pred_probs':pred_probs, 'pred_cls':pred_cls,
 		'content_tuple':json.dumps(att_content_list),
