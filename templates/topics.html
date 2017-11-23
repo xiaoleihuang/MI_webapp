@@ -60,7 +60,11 @@
                 <div class="chart-wrapper">
                     <div class="chart-title">Topic Inference Panel</div>
                     <div class="chart-stage" id="topic_viz">
-
+                        {% if infer_topics %}
+                            <script>
+                                var infer_topics = {{infer_topics|safe}}; visualize_word(context_tmp, "#topic_viz");
+                            </script>
+                        {% endif %}
                     </div>
                     {% if error %}
                         <div class="alert alert-danger">
