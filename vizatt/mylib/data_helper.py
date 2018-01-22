@@ -33,7 +33,7 @@ def load_init_properties(fpath='./resources/settings.ini'):
     import configparser
     if os.path.isfile(fpath):
         config = configparser.ConfigParser()
-        config.read_file(open(fpath))
+        config.read(open(fpath))
         return config
     else:
         return None
@@ -210,3 +210,14 @@ def proc_pipeline(input_data, keras_tokenizer, max_len):
     length_data = len(dataset_idx)
     dataset_idx = pad_sequences(dataset_idx, maxlen=max_len)
     return dataset_idx
+
+def check_installed():
+    """
+    This will check whether the local machine has installed Mozilla deep_speech correctly
+    :return: True or False
+    """
+    try:
+        import deepspeech
+        return True
+    except ImportError as e:
+        return False
