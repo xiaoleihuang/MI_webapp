@@ -25,7 +25,7 @@ Web application for the MI study
 <img src="./resources/screenshots/2.png?raw=true" alt="Contextual Mode" title="Optional Title" width="66%">
 
 # License
-1. This project is licensed under the GPL License - see the [LICENSE.md](https://github.com/xiaoleihuang/MI_webapp/blob/master/LICENSE) file for details
+1. This project is licensed under the GPL License
 
 # Contact
 This author.

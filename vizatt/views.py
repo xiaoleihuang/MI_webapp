@@ -1,6 +1,6 @@
 from django.shortcuts import render
-import sys
-
+import sys, os
+os.environ['KERAS_BACKEND']='theano'
 if sys.version_info[0] == 2:
     from unidecode import unidecode
 
@@ -8,7 +8,6 @@ if sys.version_info[0] == 2:
 #	import simplejson as json
 # except:
 import json
-import os
 
 os.environ["THEANO_FLAGS"] = "optimizer=None,mode=FAST_RUN,device=cpu,floatX=float32"
 
@@ -98,22 +97,22 @@ def attention_form_calc(request):
     content_words = content_proc[0].split()
     att_content_list = []
     for word in content_words:
-        if word in keras_tokenizer.word_index:
+        if word in keras_tokenizer.word_index and att_weights.get(keras_tokenizer.word_index[word],0) > 0.8:
             att_content_list.append({'word': word, 'value': str(att_weights.get(keras_tokenizer.word_index[word], 0))})
         else:
             att_content_list.append({'word': word, 'value': '0'})
-
+    print(att_content_list)
     # contextual mode for mapping words and its attention weights
     if input_mode == 2:
         context_words = context_proc[0].split()
         att_ctxt_list = []
         for word in context_words:
-            if word in keras_tokenizer.word_index:
+            if word in keras_tokenizer.word_index and att_weights_ctxt.get(keras_tokenizer.word_index[word], 0)> 0.6:
                 att_ctxt_list.append(
                     {'word': word, 'value': str(att_weights_ctxt.get(keras_tokenizer.word_index[word], 0))})
             else:
                 att_ctxt_list.append({'word': word, 'value': '0'})
-
+        print(att_ctxt_list)
         return render(request, 'index.html', {
             'form': input_mode,
             'pred_probs': pred_probs, 'pred_cls': pred_cls,

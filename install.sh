@@ -1,5 +1,5 @@
 #!/bin/bash
-conda create --name myenv --file myenv.txt
+conda env create -f environment.yml
 source activate myenv
 pip install -r requirements.txt
 conda install nomkl --yes

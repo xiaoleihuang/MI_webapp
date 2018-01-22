@@ -102,3 +102,4 @@ ENV/
 # self def
 venv
 .env
+.idea
