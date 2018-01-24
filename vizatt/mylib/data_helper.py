@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import sys
+import configparser
 
 # keras preprocessing
 from keras.preprocessing.text import Tokenizer
@@ -30,10 +31,9 @@ if sys.version_info[0] == 2:
 def load_init_properties(fpath='./resources/settings.ini'):
     """Load properties of initializations
     """
-    import configparser
     if os.path.isfile(fpath):
         config = configparser.ConfigParser()
-        config.read(open(fpath))
+        config.read_file(open(fpath))
         return config
     else:
         return None
